@@ -113,7 +113,7 @@ public class LoginStage {
 				ResultSet resultSet = null;
 				Statement statement = null;
 				try{
-					String url = "jdbc:sqlite:db/pmr.db";
+					String url = "jdbc:sqlite:../pmr-server/db/pmr.db";
 					connection = DriverManager.getConnection(url);
 					String sql = "Select * from User WHERE Username='" + txtUserName.getText() + "' AND Password='" + pf.getText() + "';";
 					System.out.println(sql);

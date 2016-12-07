@@ -230,7 +230,7 @@ public class PMRStage  {
 	        	  }
 	        	  Connection connection = null;
 					try{
-						String url = "jdbc:sqlite:db/pmr.db";
+						String url = "jdbc:sqlite:../pmr-server/db/pmr.db";
 						connection = DriverManager.getConnection(url);
 						String sql = "UPDATE User set Keywords='" + keywords + "' WHERE Username='" + main.currentUser + "';";
 						PreparedStatement preparedStatement = connection.prepareStatement(sql);

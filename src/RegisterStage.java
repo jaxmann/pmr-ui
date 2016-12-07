@@ -119,7 +119,7 @@ public class RegisterStage {
 				main.currentUser = txtUserName.getText();
 				Connection connection = null;
 				try{
-					String url = "jdbc:sqlite:db/pmr.db";
+					String url = "jdbc:sqlite:../pmr-server/db/pmr.db";
 					connection = DriverManager.getConnection(url);
 					String sql = "INSERT INTO User(Username, Password, Email, Keywords) VALUES(?,?,?,?)";
 					PreparedStatement preparedStatement = connection.prepareStatement(sql);
