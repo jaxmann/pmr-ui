@@ -55,6 +55,8 @@ public class RegisterStage {
 		Label lblPassword = new Label("Password");
 		Label lblEmail = new Label("Email");
 		final TextField txtEmail = new TextField();
+		Label lblPhone = new Label("Phone Number");
+		final TextField txtPhone = new TextField();
 		final PasswordField pf = new PasswordField();
 		Button btnRegister = new Button("       Create Account       ");
 		Button btnBack = new Button("Back");
@@ -66,10 +68,12 @@ public class RegisterStage {
 		gridPane.add(txtUserName, 1, 0);
 		gridPane.add(lblPassword, 0, 1);
 		gridPane.add(lblEmail, 0, 2);
+		gridPane.add(lblPhone, 0, 3);
+		gridPane.add(txtPhone, 1, 3);
 		gridPane.add(txtEmail, 1, 2);
 		gridPane.add(pf, 1, 1);
-		gridPane.add(btnBack, 0, 3);
-		gridPane.add(btnRegister, 1, 3);
+		gridPane.add(btnBack, 0, 4);
+		gridPane.add(btnRegister, 1, 4);
 		gridPane.add(lblMessage, 1, 2);
 
 
