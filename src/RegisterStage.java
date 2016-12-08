@@ -125,12 +125,13 @@ public class RegisterStage {
 				try{
 					String url = "jdbc:sqlite:../pmr-server/db/pmr.db";
 					connection = DriverManager.getConnection(url);
-					String sql = "INSERT INTO User(Username, Password, Email, Keywords) VALUES(?,?,?,?)";
+					String sql = "INSERT INTO User(Username, Password, Email, PhoneNumber, Keywords) VALUES(?,?,?,?,?)";
 					PreparedStatement preparedStatement = connection.prepareStatement(sql);
 					preparedStatement.setString(1, txtUserName.getText());
 					preparedStatement.setString(2, pf.getText());
 					preparedStatement.setString(3, txtEmail.getText());
-					preparedStatement.setString(4, "");
+					preparedStatement.setString(4, txtPhone.getText());
+					preparedStatement.setString(5, "");
 					preparedStatement.executeUpdate();
 					System.out.println("Connection successful");
 				} catch (SQLException e){
