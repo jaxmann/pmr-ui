@@ -157,9 +157,9 @@ public class RegisterStage {
 					email_connection = DriverManager.getConnection(url);
 					phone_connection = DriverManager.getConnection(url);
 
-					String user_sql = "Select * from User WHERE Username='" + txtUserName.getText() + "';";
-					String email_sql = "Select * from User WHERE Email='" + txtEmail.getText() + "';";
-					String phone_sql = "Select * from User WHERE PhoneNumber='" + txtPhone.getText() + "';";
+					String user_sql = "Select * from User WHERE Username='" + txtUserName.getText() + "';"; 
+					String email_sql = "Select * from User WHERE Email='" + txtEmail.getText() + "';"; 
+					String phone_sql = "Select * from User WHERE PhoneNumber='" + txtPhone.getText() + "';"; 
 
 					System.out.println(user_sql);
 					System.out.println(email_sql);
@@ -245,7 +245,7 @@ public class RegisterStage {
 				} else if (email_already_exists) {
 					JOptionPane.showMessageDialog(null, "email already exists in db");
 				} else if (phone_already_exists) {
-					JOptionPane.showMessageDialog(null, "email already exists in db");
+					JOptionPane.showMessageDialog(null, "phone number already exists in db");
 				} else {
 					main.currentUser = txtUserName.getText();
 					Connection connection = null;
@@ -281,10 +281,6 @@ public class RegisterStage {
 
 
 				}
-
-
-
-
 
 
 			}
