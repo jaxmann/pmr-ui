@@ -210,18 +210,18 @@ public class RegisterStage {
 				}
 
 				if (!username_valid) {
-					System.out.println("username must be at least 4 characters long");
+					JOptionPane.showMessageDialog(null, "Username must be at least 4 characters long.");
 					lblUserName.setText("Invalid User");
 					lblUserName.setId("invalid");
 				} else if (!pf_valid) {
-					System.out.println("password must be at least 4 characters long");
+					JOptionPane.showMessageDialog(null, "Password must be at least 4 characters long.");
 					lblPassword.setText("Invalid Pass");
 					lblPassword.setId("invalid");
 
 					lblUserName.setText("Username");
 					lblUserName.setId("");
 				} else if (!email_valid) {
-					System.out.println("email must be valid");
+					JOptionPane.showMessageDialog(null, "Please enter a valid email.");
 					lblEmail.setText("Invalid Email");
 					lblEmail.setId("invalid");
 
@@ -230,7 +230,7 @@ public class RegisterStage {
 					lblPassword.setText("Password");
 					lblPassword.setId("");
 				} else if (!phone_valid) {
-					System.out.println("phone number must be 10 digits long");
+					JOptionPane.showMessageDialog(null, "Please enter a 10 digit phone number.");
 					lblPhone.setText("Invalid Phone  ");
 					lblPhone.setId("invalid");
 
@@ -241,11 +241,11 @@ public class RegisterStage {
 					lblEmail.setText("Email");
 					lblEmail.setId("");
 				} else if (user_already_exists) {
-					JOptionPane.showMessageDialog(null, "user already exists in db");
+					JOptionPane.showMessageDialog(null, "This username is already registered.");
 				} else if (email_already_exists) {
-					JOptionPane.showMessageDialog(null, "email already exists in db");
+					JOptionPane.showMessageDialog(null, "This email is already associated with an account.");
 				} else if (phone_already_exists) {
-					JOptionPane.showMessageDialog(null, "phone number already exists in db");
+					JOptionPane.showMessageDialog(null, "This phone number is already associated with an account.");
 				} else {
 					main.currentUser = txtUserName.getText();
 					Connection connection = null;
@@ -300,42 +300,6 @@ public class RegisterStage {
 				concat(scene.heightProperty().asString()));
 		//primaryStage.setResizable(false);
 		primaryStage.show();
-
-
-
-		//		VBox root = new VBox(5);
-		//
-		//		Text usertext = new Text();
-		//		usertext.setText("Username");
-		//		root.getChildren().add(usertext);
-		//		TextField username = new TextField();
-		//		String name1 = "user field";
-		//		username.setOnAction(e -> {
-		//			System.out.println("Action on "+name1+": text is "+username.getText());
-		//		});
-		//		root.getChildren().add(username);
-		//
-		//
-		//		Text passwordtext = new Text();
-		//		passwordtext.setText("Password");
-		//		root.getChildren().add(passwordtext);
-		//		TextField password = new TextField();
-		//		String name2 = "password";
-		//		password.setOnAction(e -> {
-		//			System.out.println("Action on "+name2+": text is "+password.getText());
-		//		});
-		//		root.getChildren().add(password);
-		//
-		//
-		//		Text useremail = new Text();
-		//		useremail.setText("Email");
-		//		root.getChildren().add(useremail);
-		//		TextField email = new TextField();
-		//		String name3 = "Text field ";
-		//		email.setOnAction(e -> {
-		//			System.out.println("Action on "+name3+": text is "+email.getText());
-		//		});
-		//		root.getChildren().add(email);
 
 
 	}
