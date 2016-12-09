@@ -33,3 +33,7 @@
 #text {
  -fx-fill:  linear-gradient(orange , orangered);
 }
+
+#invalid {
+	-fx-text-fill: red;
+}

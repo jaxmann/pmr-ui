@@ -53,11 +53,12 @@ public class RegisterStage {
 		Label lblUserName = new Label("Username");
 		final TextField txtUserName = new TextField();
 		Label lblPassword = new Label("Password");
+		final PasswordField pf = new PasswordField();
 		Label lblEmail = new Label("Email");
 		final TextField txtEmail = new TextField();
 		Label lblPhone = new Label("Phone Number");
 		final TextField txtPhone = new TextField();
-		final PasswordField pf = new PasswordField();
+		
 		Button btnRegister = new Button("       Create Account       ");
 		Button btnBack = new Button("Back");
 		final Label lblMessage = new Label();
@@ -69,9 +70,9 @@ public class RegisterStage {
 		gridPane.add(lblPassword, 0, 1);
 		gridPane.add(lblEmail, 0, 2);
 		gridPane.add(lblPhone, 0, 3);
-		gridPane.add(txtPhone, 1, 3);
-		gridPane.add(txtEmail, 1, 2);
 		gridPane.add(pf, 1, 1);
+		gridPane.add(txtEmail, 1, 2);
+		gridPane.add(txtPhone, 1, 3);
 		gridPane.add(btnBack, 0, 4);
 		gridPane.add(btnRegister, 1, 4);
 		gridPane.add(lblMessage, 1, 2);
@@ -119,41 +120,88 @@ public class RegisterStage {
 		//		//Action for btnRegister
 		btnRegister.setOnAction(new EventHandler() {
 			public void handle(Event event) {
-				//validate email/username/password
-				main.currentUser = txtUserName.getText();
-				Connection connection = null;
-				try{
-					String url = "jdbc:sqlite:../pmr-server/db/pmr.db";
-					connection = DriverManager.getConnection(url);
-					String sql = "INSERT INTO User(Username, Password, Email, PhoneNumber, Keywords) VALUES(?,?,?,?,?)";
-					PreparedStatement preparedStatement = connection.prepareStatement(sql);
-					preparedStatement.setString(1, txtUserName.getText());
-					preparedStatement.setString(2, pf.getText());
-					preparedStatement.setString(3, txtEmail.getText());
-					preparedStatement.setString(4, txtPhone.getText());
-					preparedStatement.setString(5, "");
-					preparedStatement.executeUpdate();
-					System.out.println("Connection successful");
-				} catch (SQLException e){
-					System.out.println(e.getMessage());
-				} finally {
-					try{
-						if (connection != null){
-							connection.close();
-						}
-					} catch (SQLException ex) {
-						System.out.println(ex.getMessage());
-					}
-				}
 				
-				System.out.println("account created");
-				Stage stage = new Stage();
-				PMRStage pmrstage = new PMRStage();
-				pmrstage.buildStage(stage);
-				primaryStage.close();					
+				//validate user name input
+				
+				txtPhone.setText(txtPhone.getText().replaceAll("[^\\d]", ""));
+				
+				boolean username_valid = (txtUserName.getText().length() > 3) ? true : false; 
+				boolean pf_valid = (pf.getText().length() > 3) ? true : false; 
+				boolean email_valid = (txtEmail.getText().length() > 5 && txtEmail.getText().contains("@") && txtEmail.getText().contains(".")) ? true : false; 
+				boolean phone_valid = (txtPhone.getText().length() == 10) ? true : false;
+								
+				if (!username_valid) {
+					System.out.println("username must be at least 4 characters long");
+					lblUserName.setText("Invalid User");
+					lblUserName.setId("invalid");
+				} else if (!pf_valid) {
+					System.out.println("password must be at least 4 characters long");
+					lblPassword.setText("Invalid Pass");
+					lblPassword.setId("invalid");
+					
+					lblUserName.setText("Username");
+					lblUserName.setId("");
+				} else if (!email_valid) {
+					System.out.println("email must be valid");
+					lblEmail.setText("Invalid Email");
+					lblEmail.setId("invalid");
+					
+					lblUserName.setText("Username");
+					lblUserName.setId("");
+					lblPassword.setText("Password");
+					lblPassword.setId("");
+				} else if (!phone_valid) {
+					System.out.println("phone number must be 10 digits long");
+					lblPhone.setText("Invalid Phone  ");
+					lblPhone.setId("invalid");
+					
+					lblUserName.setText("Username");
+					lblUserName.setId("");
+					lblPassword.setText("Password");
+					lblPassword.setId("");
+					lblEmail.setText("Email");
+					lblEmail.setId("");
+				} else {
+					main.currentUser = txtUserName.getText();
+					Connection connection = null;
+					try{
+						String url = "jdbc:sqlite:../pmr-server/db/pmr.db";
+						connection = DriverManager.getConnection(url);
+						String sql = "INSERT INTO User(Username, Password, Email, PhoneNumber, Keywords) VALUES(?,?,?,?,?)";
+						PreparedStatement preparedStatement = connection.prepareStatement(sql);
+						preparedStatement.setString(1, txtUserName.getText());
+						preparedStatement.setString(2, pf.getText());
+						preparedStatement.setString(3, txtEmail.getText());
+						preparedStatement.setString(4, txtPhone.getText());
+						preparedStatement.setString(5, "");
+						preparedStatement.executeUpdate();
+						System.out.println("Connection successful");
+					} catch (SQLException e){
+						System.out.println(e.getMessage());
+					} finally {
+						try{
+							if (connection != null){
+								connection.close();
+							}
+						} catch (SQLException ex) {
+							System.out.println(ex.getMessage());
+						}
+					}
+					
+					System.out.println("account created");
+					Stage stage = new Stage();
+					PMRStage pmrstage = new PMRStage();
+					pmrstage.buildStage(stage);
+					primaryStage.close();					
 
-				txtUserName.setText("");
-				pf.setText("");
+					
+				}
+
+				
+				
+				
+				
+				
 			}
 		});
 
