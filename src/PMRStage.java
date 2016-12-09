@@ -221,10 +221,10 @@ public class PMRStage  {
 	          public void handle(WindowEvent we) {
 	        	  //Insert selectedKeywords into keywords field of user table
 	        	  String keywords = "";
-	        	  for(int i = 0; i < selectedKeywords.size(); i++){
-	        		  if(i == selectedKeywords.size() - 1){
+	        	  for(int i = 0; i < selectedKeywords.size(); i++) {
+	        		  if(i == selectedKeywords.size() - 1) {
 	        			  keywords += selectedKeywords.get(i);
-	        		  } else{
+	        		  } else {
 	        		  keywords += selectedKeywords.get(i) + "$";
 	        		  }
 	        	  }

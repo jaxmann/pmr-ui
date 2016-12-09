@@ -1,7 +1,11 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.swing.JOptionPane;
 
 import javafx.application.Application;
 import javafx.event.Event;
@@ -58,7 +62,7 @@ public class RegisterStage {
 		final TextField txtEmail = new TextField();
 		Label lblPhone = new Label("Phone Number");
 		final TextField txtPhone = new TextField();
-		
+
 		Button btnRegister = new Button("       Create Account       ");
 		Button btnBack = new Button("Back");
 		final Label lblMessage = new Label();
@@ -120,16 +124,91 @@ public class RegisterStage {
 		//		//Action for btnRegister
 		btnRegister.setOnAction(new EventHandler() {
 			public void handle(Event event) {
-				
+
 				//validate user name input
-				
+
 				txtPhone.setText(txtPhone.getText().replaceAll("[^\\d]", ""));
-				
+
 				boolean username_valid = (txtUserName.getText().length() > 3) ? true : false; 
 				boolean pf_valid = (pf.getText().length() > 3) ? true : false; 
 				boolean email_valid = (txtEmail.getText().length() > 5 && txtEmail.getText().contains("@") && txtEmail.getText().contains(".")) ? true : false; 
 				boolean phone_valid = (txtPhone.getText().length() == 10) ? true : false;
-								
+				
+				boolean user_already_exists = false;
+				boolean email_already_exists = false;
+				boolean phone_already_exists = false;
+
+
+				Connection user_connection = null;
+				ResultSet user_resultSet = null;
+				Statement user_statement = null;
+				
+				Connection email_connection = null;
+				ResultSet email_resultSet = null;
+				Statement email_statement = null;
+				
+				Connection phone_connection = null;
+				ResultSet phone_resultSet = null;
+				Statement phone_statement = null;
+				
+				try{
+					String url = "jdbc:sqlite:../server/db/pmr.db";
+					user_connection = DriverManager.getConnection(url);
+					email_connection = DriverManager.getConnection(url);
+					phone_connection = DriverManager.getConnection(url);
+
+					String user_sql = "Select * from User WHERE Username='" + txtUserName.getText() + "';";
+					String email_sql = "Select * from User WHERE Email='" + txtEmail.getText() + "';";
+					String phone_sql = "Select * from User WHERE PhoneNumber='" + txtPhone.getText() + "';";
+
+					System.out.println(user_sql);
+					System.out.println(email_sql);
+					System.out.println(phone_sql);
+
+					user_statement = user_connection.createStatement();
+					email_statement = email_connection.createStatement();
+					phone_statement = phone_connection.createStatement();
+					
+					user_resultSet = user_statement.executeQuery(user_sql);
+					email_resultSet = email_statement.executeQuery(email_sql);
+					phone_resultSet = phone_statement.executeQuery(phone_sql);
+					
+					if(user_resultSet.next()){
+						user_already_exists = true;
+					}
+					
+					if(email_resultSet.next()){
+						email_already_exists = true;
+					}
+					
+					if(phone_resultSet.next()){
+						phone_already_exists = true;
+					}
+
+				} catch (SQLException e){
+					System.out.println(e.getMessage());
+				} finally {
+					try{
+						if (user_connection != null){
+							user_resultSet.close();
+							user_statement.close();
+							user_connection.close();
+						}
+						if (email_connection != null){
+							email_resultSet.close();
+							email_statement.close();
+							email_connection.close();
+						}
+						if (phone_connection != null){
+							phone_resultSet.close();
+							phone_statement.close();
+							phone_connection.close();
+						}
+					} catch (SQLException ex) {
+						System.out.println(ex.getMessage());
+					}
+				}
+
 				if (!username_valid) {
 					System.out.println("username must be at least 4 characters long");
 					lblUserName.setText("Invalid User");
@@ -138,14 +217,14 @@ public class RegisterStage {
 					System.out.println("password must be at least 4 characters long");
 					lblPassword.setText("Invalid Pass");
 					lblPassword.setId("invalid");
-					
+
 					lblUserName.setText("Username");
 					lblUserName.setId("");
 				} else if (!email_valid) {
 					System.out.println("email must be valid");
 					lblEmail.setText("Invalid Email");
 					lblEmail.setId("invalid");
-					
+
 					lblUserName.setText("Username");
 					lblUserName.setId("");
 					lblPassword.setText("Password");
@@ -154,13 +233,19 @@ public class RegisterStage {
 					System.out.println("phone number must be 10 digits long");
 					lblPhone.setText("Invalid Phone  ");
 					lblPhone.setId("invalid");
-					
+
 					lblUserName.setText("Username");
 					lblUserName.setId("");
 					lblPassword.setText("Password");
 					lblPassword.setId("");
 					lblEmail.setText("Email");
 					lblEmail.setId("");
+				} else if (user_already_exists) {
+					JOptionPane.showMessageDialog(null, "user already exists in db");
+				} else if (email_already_exists) {
+					JOptionPane.showMessageDialog(null, "email already exists in db");
+				} else if (phone_already_exists) {
+					JOptionPane.showMessageDialog(null, "email already exists in db");
 				} else {
 					main.currentUser = txtUserName.getText();
 					Connection connection = null;
@@ -187,21 +272,21 @@ public class RegisterStage {
 							System.out.println(ex.getMessage());
 						}
 					}
-					
+
 					System.out.println("account created");
 					Stage stage = new Stage();
 					PMRStage pmrstage = new PMRStage();
 					pmrstage.buildStage(stage);
 					primaryStage.close();					
 
-					
+
 				}
 
-				
-				
-				
-				
-				
+
+
+
+
+
 			}
 		});
 
