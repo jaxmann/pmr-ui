@@ -111,7 +111,7 @@ public class Login extends Application {
 				ResultSet resultSet = null;
 				Statement statement = null;
 				try{
-					String url = "jdbc:sqlite:../pmr-server/db/pmr.db";
+					String url = "jdbc:sqlite:../server/db/pmr.db";
 					connection = DriverManager.getConnection(url);
 					String sql = "Select * from User WHERE Username='" + txtUserName.getText() + "' AND Password='" + pf.getText() + "';";
 					System.out.println(sql);
